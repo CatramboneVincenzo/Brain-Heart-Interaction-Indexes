@@ -1,4 +1,4 @@
-# Brain-Heart-Interaction-indexes
+# Brain-Heart Interaction Indexes
 The current repository contains an implementation of the Brain-Heart Interaction model proposed by Catrambone et al in 2019 ("Time-Resolved Directional Brain–Heart Interplay Measurement Through Synthetic Data Generation Models").
 
 BHImodel2() is a function that quantify directional Brain-Heart Interplay (BHI) 
