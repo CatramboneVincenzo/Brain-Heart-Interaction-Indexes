@@ -1,5 +1,6 @@
 # Brain-Heart Interaction Indexes
-The current repository contains an implementation of the Brain-Heart Interaction model proposed by Catrambone et al in 2019 ("Time-Resolved Directional Brain–Heart Interplay Measurement Through Synthetic Data Generation Models").
+This code implements the theoretical dissertation about a new Brain-Heart interaction model, published in:
+[1] Catrambone Vincenzo, Alberto Greco, Nicola Vanello, Enzo Pasquale Scilingo, and Gaetano Valenza. "Time-Resolved Directional Brain/Heart Interplay Measurement Through Synthetic Data Generation Models." Annals of biomedical engineering 47, no. 6 (2019): 1479-1489.
 
 This function quantifies directional Brain-Heart Interplay (BHI) through the model proposed by Catrambone et al.(2019) [1].
 
@@ -18,11 +19,6 @@ OUTPUT variables:
 
 This software assumes that input series are all artifact free, e.g., heartbeat dynamics free of algotirhmic and/or physiological artifacts; e.g. EEG series free of artifacts from eye blink, movement, etc.
 
----------------------------------------------------------------------------------------------
-
- This code implements the theoretical dissertation published in:
- [1] Catrambone Vincenzo, Alberto Greco, Nicola Vanello, Enzo Pasquale Scilingo, and Gaetano Valenza. "Time-Resolved Directional Brain/Heart Interplay Measurement Through Synthetic Data Generation Models." Annals of biomedical engineering 47, no. 6 (2019): 1479-1489.
- 
 ---------------------------------------------------------------------------------------------
 
 Copyright (C) 2019 Vincenzo Catrambone, Gaetano Valenza
