@@ -1,27 +1,26 @@
 # Brain-Heart Interaction Indexes
 The current repository contains an implementation of the Brain-Heart Interaction model proposed by Catrambone et al in 2019 ("Time-Resolved Directional Brain–Heart Interplay Measurement Through Synthetic Data Generation Models").
 
-BHImodel2() is a function that quantify directional Brain-Heart Interplay (BHI) 
-adopting the BHI model proposed by Catrambone et al.(2019) [1].
+This function quantifies directional Brain-Heart Interplay (BHI) through the model proposed by Catrambone et al.(2019) [1].
 
 INPUT variables:
-- TFR_EEG = Time course of EEG PSD, it must be a matrix: Channels X time points. It should be already filtered in the desired band of interest (psi)
-- TFR_HRV = Time course of HRV PSD. It should be already filtered in the desired band of interest. (phi)
+- TFR_EEG = Time course of EEG power spectral density (PSD). This must be a matrix (Dimension: Channels X time samples). Each series in each row should be filtered in the desired frequency band of interest (psi)
+- TFR_HRV = Time course of HRV PSD (Dimension: 1 X time samples). This should be filtered in the desired frequency band of interest (phi: e.g., LF or HF band).
 - FS      = Sampling Frequency of the two TFRs
-- RR      = HRV time series (in seconds)
-- win_RR  = windows length (in seconds) in which the RR model is reconstructed (default = 15 secs)
-- window  = windows length (in seconds) in which the parameters are calculated (by default, it is assured that: window*FS >= 15 )
+- RR      = HRV time series (expressed in seconds)
+- win_RR  = windows length (expressed in seconds) in which the heartbeat generation model (IPFM) is reconstructed (default = 15 s)
+- window  = windows length (in seconds) in which the parameters are calculated (default: window*FS >= 15 )
 
 OUTPUT variables:
-- HeartToBrain = Functional coupling index (c_rrTOeeg(T)) from the given Phi-band of HRV to the given Psi-band of the EEG
-- BrainToHF, BrainToLF  = Functional coupling indexes from the given Psi-band of EEG to the LF or HF HRV bands
-- HeartToBrain_sigma, HeartToBrain_mc = other parameters that can be extracted from the model in [1]
+- HeartToBrain = Functional coupling index (c_rrTOeeg(T)) from HRV Phi-band to EEG Psi-band
+- BrainToHF, BrainToLF  = Functional coupling indices from EEG Psi-band to HRV-LF or HRV-HF bands
+- HeartToBrain_sigma, HeartToBrain_mc = model parameters to be used for fitting evaluation [1]
 
-It is assumed that the signals given as input the BHImodel2() function are artifact free, from algotirhmic and physiological point of view (e.g. ectopic beats, eye blink, movement, ecc.)
+This software assumes that input series are all artifact free, e.g., heartbeat dynamics free of algotirhmic and/or physiological artifacts; e.g. EEG series free of artifacts from eye blink, movement, etc.
 
 ---------------------------------------------------------------------------------------------
 
- This code is an implementation of the following scientific research, where an interested reader can find all the mathematical and teorethical details:
+ This code implements the theoretical dissertation published in:
  [1] Catrambone Vincenzo, Alberto Greco, Nicola Vanello, Enzo Pasquale Scilingo, and Gaetano Valenza. "Time-Resolved Directional Brain/Heart Interplay Measurement Through Synthetic Data Generation Models." Annals of biomedical engineering 47, no. 6 (2019): 1479-1489.
  
 ---------------------------------------------------------------------------------------------
@@ -36,7 +35,7 @@ If you use this program in support of published research, please include a citat
 
 To use the software from Matlab or Octave, simply call the BHImodel function in the src/folder. Type 'help BHImodel' from the Matlab/Octave command window for help on the command's syntax and input/output arguments.
 
-The software does not come with a GUI. Assuming 'x' and 'y' being the time course, sampled at 1 Hz, of Power spectral density of an EEG channel in the theta band (4-8 Hz) and HRV series respetively (integrated in LF+HF bands), and 'z' being the original HRV series, the following example performs the BHImodel analysis (with default parameters) and plots the results:
+The software does not come with a GUI. Assuming the series sampled at 1 Hz, with 'x' as the time-varying PSD of a given EEG channel integrated in the theta band (4-8 Hz)  and 'y' as the time-varying PSD of an HRV series integrated in 0.04-0.4 Hz, and 'z' as the HRV series, the following example performs the BHImodel analysis (with default parameters) and plots the function outcomes:
 
 Fs = 1;
 
