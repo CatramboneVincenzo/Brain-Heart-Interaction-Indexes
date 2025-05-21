@@ -1,20 +1,29 @@
-# Brain-Heart Interaction Indexes
-% This function quantifies directional Brain-Heart Interplay (BHI) through the model proposed by Catrambone et al.(2019) [1].
+function [] = SDGM_LFHF(EEG,f_lims,RR,RRi,t_RRi,FS_rri,FS_bhi,TV,file_output)
 
-% INPUT variables:
-% TFR_EEG = Time course of EEG power spectral density (PSD). This must be a matrix (Dimension: Channels X time)
-%           samples. Each series in each row should be filtered in the desired frequency band of interest (psi)
-% TFR_HRV = Time course of HRV PSD (Dimension: 1 X time). This should be filtered in the desired frequency band of interest (phi: e.g., LF or HF band)
-% FS      = Sampling Frequency of the two TFRs
-% RR      = HRV series (expressed in seconds)
-% win_RR  = windows length (expressed in seconds) in which the heartbeat generation model (IPFM) is reconstructed (default = 15s)
-% window  = windows length (in seconds) in which the parameters are calculated (default: window*FS >= 15 )
+%% Sinthetic Data Generation model implementation for Brain-Heart Interplay (BHI) time-resolved estimation
+% Inputs:  
+% EEG: EEGLAB-like structure with the preprocessed EEG signals
+% f_lims: a matrix (Nb x 2) identifying the Nb frequency bands limits to be used
+% in EEG analysis. Exaxmple: (to use theta, alpha, and beta bands) f_lims = [4 8; 8 12; 12 30];
+% RR: HRV series
+% RRi: HRV series interpolated
+% t_RRi: time vectors corrisponding to RRi samples
+% FS_rri: sampling frequency of HRV interpolation (usually 4 Hz)
+% FS_bhi: sampling frequency of the output BHI series (usually < 10 Hz)
 % TV: time-varying flag. 0 for punctual estimate, 1 for time-resolved estimate.
+% file_output: the function automatically saves a 'BHI' variable into the path specified by 'file_output'
 
-% OUTPUT variables:
-% - HeartToBrain = Functional coupling index (c_rrTOeeg(T)) from HRV Phi-band to EEG Psi-band
-% - BrainToHF, BrainToLF  = Functional coupling indices from  EEG Psi-band to  HRV-LF or  HRV-HF bands
-% - HeartToBrain_sigma, HeartToBrain_mc = model parameters to be used for fitting evaluation [1]
+% The variable BHI has the following structure:
+% BHI.BtH: brain-to-heart estimates, a matrix of (Nb x 2 x Nt_bhi) dimensions
+% BHI.HtB: heart-to-brain estimates, a matrix of (2 x Nb x Nt_bhi) dimensions
+% BHI.FS_bhi: sampling frequency of the BHI estimates
+% BHI.time: time vector of Nt_bhi elements
+% BHI.bands: frequency limits of the EEG bands being analyzed
+% BHI.parameters.EEG_PSD_wind: time window through which the EEG-PSD STFT has been calculated
+% BHI.parameters.EEG_PSD_step: time step through which the EEG-PSD STFT has been calculated
+% BHI.channels: EEGLAB-like structure for EEG channels locations
+% BHI.events: EEGLAB-like structure for EEG events
+%
 % 
 % This software assumes that input series are all artifact free, e.g., heartbeat dynamics free of algotirhmic and/or physiological artifacts; e.g.
 % EEG series free of artifacts from eye blink, movement, etc.
